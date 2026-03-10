@@ -3,7 +3,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>calculator - Google Search</title>
 
-<base href="https://cdn.jsdelivr.net/gh/mysticful/wither@main/">
+<base href="https://raw.githack.com/mysticful/wither/main/">
         <style>
         body {
     background: linear-gradient(#000000, #a5124c);
@@ -893,24 +893,36 @@ function closeGx(){
 </script>
 
 <script>
-document.getElementById("gxSearch").addEventListener("keyup", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-  let search = this.value.toLowerCase();
-  let games = document.querySelectorAll(".bttn-container .bttn");
+  const gxLinks = document.querySelectorAll(".bttn-container a");
+  const frame = document.getElementById("gxFrame");
+  const container = document.getElementById("gxContainer");
+  const list = document.querySelector(".bttn-container");
+  const search = document.getElementById("gxSearch");
 
-  games.forEach(game => {
+  gxLinks.forEach(link => {
+    link.addEventListener("click", async function(e) {
+      e.preventDefault();
 
-    let title = game.querySelector("h2").textContent.toLowerCase();
+      const url = this.getAttribute("href");
 
-    if (title.includes(search)) {
-      game.style.display = "inline-block";
-    } else {
-      game.style.display = "none";
-    }
+      const res = await fetch(url);
+      const html = await res.text();
 
+      frame.srcdoc = html;
+
+      container.style.display = "block";
+      list.style.display = "none";
+      search.style.display = "none";
+
+      window.scrollTo(0,0);
+    });
   });
 
 });
+</script>
 </script>
 </body>
 </html>
